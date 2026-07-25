@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>正在跳转...</title>
+    <script>
+        (function () {
+            // 把当前 URL 的所有参数原样传给 index.html，并附加时间戳 v
+            // 时间戳每次不同 → 微信每次看到新 URL → 强制重新加载 index.html
+            var search = window.location.search; // 例如 ?c=xxx
+            var v = Math.floor(Date.now() / 1000);
+            var sep = search ? '&' : '?';
+            var target = './index.html' + search + sep + 'v=' + v;
+            location.replace(target);
+        })();
+    </script>
+</head>
+<body></body>
+</html>
