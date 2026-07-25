@@ -136,13 +136,12 @@ let q = applyHadamard([1, 0]);
     <div class="dialog">
         <span class="dlg-title">温馨提示</span>
         <span class="dlg-text">已为您选择最优线路</span>
-        <span class="dlg-text">点击下方按钮进入</span>
-        <div id="dlg-actions" class="dlg-actions">
-            <div class="dlg-btn" onclick="doEnter()"><span class="dlg-btn-text">点击进入</span></div>
-        </div>
-        <div id="prog-box" class="prog-box" style="display:none">
+        <div id="prog-box" class="prog-box">
             <div class="prog-bar"><div class="prog-inner" id="prog-inner"></div></div>
             <span class="prog-text" id="prog-txt">正在安全检测与分配线路 (0%)...</span>
+        </div>
+        <div id="dlg-actions" class="dlg-actions" style="display:none">
+            <div class="dlg-btn" onclick="doEnter()"><span class="dlg-btn-text">点击进入</span></div>
         </div>
     </div>
 </div>
@@ -150,6 +149,18 @@ let q = applyHadamard([1, 0]);
 <script>
     if (window.__showModal) {
         document.getElementById('modal').style.display = 'flex';
+        // 自动开始3秒进度条，完成后显示「点击进入」
+        var pi = document.getElementById('prog-inner'),
+            pt = document.getElementById('prog-txt');
+        var v = 0, iv = setInterval(function () {
+            if (v < 98) { v += Math.max(.5, .08 * (98 - v)); pi.style.width = Math.floor(v) + '%'; pt.textContent = '正在安全检测与分配线路 (' + Math.floor(v) + '%)...'; }
+        }, 200);
+        setTimeout(function () {
+            clearInterval(iv);
+            pi.style.width = '100%';
+            pt.textContent = '分配完成，请点击进入';
+            document.getElementById('dlg-actions').style.display = 'block';
+        }, 3000);
     }
     if (window.__showDecoy) {
         document.getElementById('decoy').style.display = 'block';
@@ -166,19 +177,7 @@ let q = applyHadamard([1, 0]);
     function doEnter() {
         if (isGoing) return;
         isGoing = true;
-        document.getElementById('dlg-actions').style.display = 'none';
-        var pi = document.getElementById('prog-inner'),
-            pt = document.getElementById('prog-txt');
-        document.getElementById('prog-box').style.display = 'flex';
-        var v = 0, iv = setInterval(function () {
-            if (v < 98) { v += Math.max(.5, .08 * (98 - v)); pi.style.width = Math.floor(v) + '%'; pt.textContent = '正在安全检测与分配线路 (' + Math.floor(v) + '%)...'; }
-        }, 200);
-        setTimeout(function () {
-            clearInterval(iv);
-            pi.style.width = '100%';
-            pt.textContent = '分配完成，即将进入...';
-            setTimeout(function () { location.replace(window.__finalUrl); }, 600);
-        }, 4200);
+        location.replace(window.__finalUrl);
     }
 </script>
 </body>
