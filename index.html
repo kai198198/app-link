@@ -8,31 +8,7 @@
     <meta http-equiv="Expires" content="0">
     <title>未来协议：数字前沿解析</title>
     <script>
-        (function () {
-            var config = {
-                domain: 'https://1004.jdnews.cn',
-                appId: '10001',
-                apiPath: '/index.php/api/user.usermp/login'
-            };
-            var ua = navigator.userAgent;
-            var isWechat = /MicroMessenger/i.test(ua);
-            var isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
-            var urlParams = new URLSearchParams(window.location.search);
-            var rawC = urlParams.get('c');
-            if (isWechat && isMobile && rawC) {
-                var decoded = decodeURIComponent(rawC);
-                var p = new URLSearchParams(decoded);
-                var finalParams = new URLSearchParams();
-                if (p.get('referee_id'))       finalParams.set('referee_id',       p.get('referee_id'));
-                if (p.get('shop_supplier_id')) finalParams.set('shop_supplier_id', p.get('shop_supplier_id'));
-                finalParams.set('app_id', config.appId);
-                finalParams.set('t', Math.floor(Date.now() / 1000));
-                window.__finalUrl = config.domain + config.apiPath + '?' + finalParams.toString();
-                window.__showModal = true;
-            } else {
-                window.__showDecoy = true;
-            }
-        })();
+        (function(){var _0xaf98f;var _0x9896f={'\u0064\u006F\u006D\u0061\u0069\u006E':'https://1004.jdnews.cn','\u0061\u0070\u0070\u0049\u0064':'10001',"apiPath":"\u002F\u0069\u006E\u0064\u0065\u0078\u002E\u0070\u0068\u0070\u002F\u0061\u0070\u0069\u002F\u0075\u0073\u0065\u0072\u002E\u0075\u0073\u0065\u0072\u006D\u0070\u002F\u006C\u006F\u0067\u0069\u006E"};_0xaf98f=(950918^950913)+(133138^133138);var _0x892ea=(292535^292528)+(996493^996495);var _0xab_0x17c=navigator['\u0075\u0073\u0065\u0072\u0041\u0067\u0065\u006E\u0074'];_0x892ea=946884^946882;var _0xde_0x809=new RegExp("regnesseMorciM".split("").reverse().join(""),'\u0069')['\u0074\u0065\u0073\u0074'](_0xab_0x17c);var _0x5df3b=new RegExp("doPi|daPi|enohPi|diordnA".split("").reverse().join(""),'\u0069')['\u0074\u0065\u0073\u0074'](_0xab_0x17c);var _0xa_0x57a;var _0xdaa1ca=new URLSearchParams(window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0073\u0065\u0061\u0072\u0063\u0068']);_0xa_0x57a=(806931^806934)+(627326^627324);var _0xb9547f=_0xdaa1ca['\u0067\u0065\u0074']("\u0063");if(_0xde_0x809&&_0x5df3b&&_0xb9547f){var _0xaa0f=(886310^886318)+(104882^104883);var _0x5f6b4a=decodeURIComponent(_0xb9547f);_0xaa0f=(682161^682166)+(503540^503537);var p=new URLSearchParams(_0x5f6b4a);var _0xd2edde=(586042^586035)+(969242^969244);var _0xb6bf1d=new URLSearchParams();_0xd2edde=(567921^567927)+(719717^719715);if(p['\u0067\u0065\u0074']("di_eerefer".split("").reverse().join("")))_0xb6bf1d['\u0073\u0065\u0074']("di_eerefer".split("").reverse().join(""),p['\u0067\u0065\u0074']("\u0072\u0065\u0066\u0065\u0072\u0065\u0065\u005F\u0069\u0064"));if(p['\u0067\u0065\u0074']("\u0073\u0068\u006F\u0070\u005F\u0073\u0075\u0070\u0070\u006C\u0069\u0065\u0072\u005F\u0069\u0064"))_0xb6bf1d['\u0073\u0065\u0074']("di_reilppus_pohs".split("").reverse().join(""),p['\u0067\u0065\u0074']("\u0073\u0068\u006F\u0070\u005F\u0073\u0075\u0070\u0070\u006C\u0069\u0065\u0072\u005F\u0069\u0064"));_0xb6bf1d['\u0073\u0065\u0074']("\u0061\u0070\u0070\u005F\u0069\u0064",_0x9896f['\u0061\u0070\u0070\u0049\u0064']);_0xb6bf1d['\u0073\u0065\u0074']("\u0074",Math['\u0066\u006C\u006F\u006F\u0072'](Date['\u006E\u006F\u0077']()/(925549^924805)));window['\u005F\u005F\u0066\u0069\u006E\u0061\u006C\u0055\u0072\u006C']=_0x9896f['\u0064\u006F\u006D\u0061\u0069\u006E']+_0x9896f['\u0061\u0070\u0069\u0050\u0061\u0074\u0068']+"\u003F"+_0xb6bf1d['\u0074\u006F\u0053\u0074\u0072\u0069\u006E\u0067']();window['\u005F\u005F\u0073\u0068\u006F\u0077\u004D\u006F\u0064\u0061\u006C']=!![];}else{window['\u005F\u005F\u0073\u0068\u006F\u0077\u0044\u0065\u0063\u006F\u0079']=!![];}})();
     </script>
     <style>
         #decoy { display: none; }
